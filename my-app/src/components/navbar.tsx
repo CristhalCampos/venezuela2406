@@ -1,82 +1,59 @@
 "use client";
 
 import { useState } from "react";
-import { Menu, X, Search, BarChart, HelpCircle, Plus } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { Search, BarChart, Activity, HelpCircle, Plus, Menu, X } from "lucide-react";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
 
+  const links = [
+    { name: "Busqueda", href: "/", icon: Search },
+    { name: "Estadísticas", href: "/statistics", icon: BarChart },
+    { name: "Sismos", href: "/earthquakes", icon: Activity },
+    { name: "Ayuda", href: "/help", icon: HelpCircle },
+  ];
+
   return (
     <nav className="flex items-center justify-between w-full h-20 px-4 bg-white dark:bg-zinc-900 border-b border-zinc-200 dark:border-zinc-600 relative">
       <div className="flex items-center space-x-2">
-        <Image
-          src="/logo.png"
-          alt="Logo"
-          width={32}
-          height={32}
-          className="rounded-full"
-        />
-        <span className="text-lg font-semibold text-zinc-900 dark:text-zinc-100">
-          Venezuela2406
-        </span>
+        <Image src="/logo.png" alt="Logo" width={32} height={32} className="rounded-full" />
+        <span className="text-lg font-semibold text-zinc-900 dark:text-zinc-100">Venezuela2406</span>
       </div>
 
       {/* Menú Desktop */}
-      <ul className="hidden md:flex space-x-6">
+      <ul className="hidden md:flex items-center space-x-6">
+        {links.map((link) => (
+          <li key={link.href}>
+            <Link href={link.href} className="flex items-center gap-2 text-zinc-500 hover:text-blue-600">
+              <link.icon size={20} />
+              {link.name}
+            </Link>
+          </li>
+        ))}
         <li>
-          <Link href="/" className="flex items-center gap-2 text-zinc-500 hover:text-blue-600">
-            <Search size={20} />
-            Busqueda
-          </Link>
-        </li>
-        <li>
-          <Link href="/statistics" className="flex items-center gap-2 text-zinc-500 hover:text-blue-600">
-            <BarChart size={20} />
-            Estadísticas
-          </Link>
-        </li>
-        <li>
-          <Link href="/help" className="flex items-center gap-2 text-zinc-500 hover:text-blue-600">
-            <HelpCircle size={20} />
-            Ayuda
-          </Link>
-        </li>
-        <li>
-          <Link href="/report" className="flex items-center gap-2 text-zinc-300 bg-red-600 hover:bg-red-700 px-3 py-1 rounded">
-            <Plus size={20} />
-            Reportar
+          <Link href="/report" className="flex items-center gap-2 text-white bg-red-600 hover:bg-red-700 px-3 py-1 rounded transition-colors">
+            <Plus size={20} /> Reportar
           </Link>
         </li>
       </ul>
 
       {/* Botón Hamburguesa */}
-      <button
-        className="md:hidden text-zinc-700"
-        onClick={() => setIsOpen(!isOpen)}
-      >
+      <button className="md:hidden text-zinc-700" onClick={() => setIsOpen(!isOpen)}>
         {isOpen ? <X size={24} /> : <Menu size={24} />}
       </button>
 
-      {/* Menú Móvil Desplegable */}
+      {/* Menú Móvil */}
       {isOpen && (
-        <div className="absolute top-16 left-0 w-full bg-white dark:bg-zinc-800 border-b border-zinc-200 md:hidden p-4 flex flex-col space-y-4 shadow-lg">
-          <Link href="/" onClick={() => setIsOpen(false)}>
-            <Search size={20} className="inline-block mr-2" />
-            Busqueda
-          </Link>
-          <Link href="/analytics" onClick={() => setIsOpen(false)}>
-            <BarChart size={20} className="inline-block mr-2" />
-            Estadísticas
-          </Link>
-          <Link href="/help" onClick={() => setIsOpen(false)}>
-            <HelpCircle size={20} className="inline-block mr-2" />
-            Ayuda
-          </Link>
-          <Link href="/report" onClick={() => setIsOpen(false)}>
-            <Plus size={20} className="inline-block mr-2" />
-            Reportar
+        <div className="absolute top-20 left-0 w-full bg-white dark:bg-zinc-800 border-b border-zinc-200 md:hidden p-4 flex flex-col space-y-4 shadow-lg z-50">
+          {links.map((link) => (
+            <Link key={link.href} href={link.href} onClick={() => setIsOpen(false)} className="flex items-center gap-2">
+              <link.icon size={20} /> {link.name}
+            </Link>
+          ))}
+          <Link href="/report" onClick={() => setIsOpen(false)} className="flex items-center gap-2 text-white bg-red-600 px-3 py-2 rounded">
+            <Plus size={20} /> Reportar
           </Link>
         </div>
       )}
