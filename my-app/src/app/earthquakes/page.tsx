@@ -4,10 +4,11 @@ import { useState, useEffect } from "react";
 
 export default function EarthquakesPage() {
   const [isMounted, setIsMounted] = useState(false);
+  
   useEffect(() => {
     setIsMounted(true);
   }, []);
-  
+
   const earthquakes = [
     { id: 1, location: "54 km N of El Limón, Venezuela", date: "2026-06-26T18:16:00", magnitude: 4.7 },
     { id: 2, location: "17 km WSW of Morón, Venezuela", date: "2026-06-26T00:19:00", magnitude: 4.4 },
