@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Search, ExternalLink } from "lucide-react";
+import { ExternalLink } from "lucide-react";
 import Link from "next/link";
 
 export default function Home() {
@@ -111,7 +111,6 @@ export default function Home() {
   //           Ingresa el nombre, apellido o lugar de residencia de la persona para buscar en nuestra fuente.
   //         </p>
 
-  //         {/* Barra de Búsqueda */}
   //         <div className="relative flex items-center">
   //           <Search className="absolute left-3 text-blue-600" size={20} />
   //           <input
@@ -123,7 +122,6 @@ export default function Home() {
   //           />
   //         </div>
 
-  //         {/* Área de resultados */}
   //         <div className="mt-6 p-6 border-2 border-dashed border-yellow-200 bg-yellow-50/50 dark:bg-yellow-900/10 rounded-lg text-center text-zinc-600 dark:text-zinc-400">
   //           Los resultados aparecerán aquí próximamente.
   //         </div>

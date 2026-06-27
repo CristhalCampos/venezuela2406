@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Search, BarChart, Activity, HelpCircle, Plus, Menu, X } from "lucide-react";
+import { Search, Activity, HelpCircle, Plus, Menu, X } from "lucide-react";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -39,12 +39,11 @@ export default function Navbar() {
         </li>
       </ul>
 
-      {/* Botón Hamburguesa */}
+      {/* Menú Móvil */}
       <button className="md:hidden text-zinc-700" onClick={() => setIsOpen(!isOpen)}>
         {isOpen ? <X size={24} /> : <Menu size={24} />}
       </button>
 
-      {/* Menú Móvil */}
       {isOpen && (
         <div className="absolute top-20 left-0 w-full bg-white dark:bg-zinc-800 border-b border-zinc-200 md:hidden p-4 flex flex-col space-y-4 shadow-lg z-50">
           {links.map((link) => (
