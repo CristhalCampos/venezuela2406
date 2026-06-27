@@ -16,7 +16,7 @@ export default function Navbar() {
   ];
 
   return (
-    <nav className="flex items-center justify-between w-full h-20 px-4 bg-white dark:bg-zinc-900 border-b border-zinc-200 dark:border-zinc-600 relative">
+    <nav className="flex items-center justify-between w-full h-20 px-4 bg-gray-400/50 dark:bg-zinc-900 border-b border-zinc-200 dark:border-zinc-600 relative">
       <div className="flex items-center space-x-2">
         <Image src="/logo.png" alt="Logo" width={32} height={32} className="rounded-full" />
         <span className="text-lg font-semibold text-zinc-900 dark:text-zinc-100">Venezuela2406</span>
