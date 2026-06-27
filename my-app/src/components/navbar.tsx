@@ -11,8 +11,8 @@ export default function Navbar() {
   const links = [
     { name: "Busqueda", href: "/", icon: Search },
     // { name: "Estadísticas", href: "/statistics", icon: BarChart },
-    { name: "Sismos", href: "/earthquakes", icon: Activity },
     { name: "Ayuda", href: "/help", icon: HelpCircle },
+    { name: "Sismos", href: "/earthquakes", icon: Activity },
   ];
 
   return (
@@ -33,8 +33,8 @@ export default function Navbar() {
           </li>
         ))}
         <li>
-          <Link href="/report" className="flex items-center gap-2 text-white bg-red-600 hover:bg-red-700 px-3 py-1 rounded transition-colors">
-            <Plus size={20} /> Reportar
+          <Link href="/map" className="flex items-center gap-2 text-white bg-red-600 hover:bg-red-700 px-3 py-1 rounded transition-colors">
+            <Plus size={20} /> Mapa
           </Link>
         </li>
       </ul>
@@ -52,8 +52,8 @@ export default function Navbar() {
               <link.icon size={20} /> {link.name}
             </Link>
           ))}
-          <Link href="/report" onClick={() => setIsOpen(false)} className="flex items-center gap-2 text-white bg-red-600 px-3 py-2 rounded">
-            <Plus size={20} /> Reportar
+          <Link href="/map" onClick={() => setIsOpen(false)} className="flex items-center gap-2 text-white bg-red-600 px-3 py-2 rounded">
+            <Plus size={20} /> Mapa
           </Link>
         </div>
       )}
