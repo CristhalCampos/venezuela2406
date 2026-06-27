@@ -51,10 +51,10 @@ export default function Home() {
             href={bot.url}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center justify-between py-6 px-3 bg-zinc-100 dark:bg-zinc-800 rounded-lg hover:text-blue-600 hover:bg-blue-50 dark:hover:bg-zinc-700 transition-colors border-l-3 border-blue-500"
+            className="flex items-center justify-between py-6 px-3 bg-zinc-100 dark:bg-zinc-800 rounded-lg hover:text-blue-600 hover:bg-blue-50 dark:hover:text-blue-400 dark:hover:bg-zinc-700 transition-colors border-l-3 border-blue-500"
           >
             {bot.name}
-            <ExternalLink size={16} className="text-zinc-500 ml-10" />
+            <ExternalLink size={16} />
           </Link>
         ))}
       </div>
@@ -95,7 +95,7 @@ export default function Home() {
   //             className="flex items-center justify-between p-3 bg-zinc-100 dark:bg-zinc-800 rounded-lg hover:text-blue-600 hover:bg-blue-50 dark:hover:bg-zinc-700 transition-colors border-l-3 border-blue-500"
   //           >
   //             {bot.name}
-  //             <ExternalLink size={16} className="text-zinc-500" />
+  //             <ExternalLink size={16} />
   //           </Link>
   //         ))}
   //       </div>
