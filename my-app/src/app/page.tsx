@@ -2,8 +2,8 @@
 
 import { useState, useEffect, useRef, useCallback } from "react";
 import { Search, Loader2 } from "lucide-react";
-import { searchPerson } from "@/services/personService";
-import { PersonCard, Person } from "@/components/personCard";
+import { searchPerson, Person } from "@/services/personService";
+import { PersonCard } from "@/components/personCard";
 import { SearchSources } from "@/components/searchSources";
 
 export default function Home() {

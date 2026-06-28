@@ -1,14 +1,4 @@
-export interface Person {
-  id: number;
-  full_name: string;
-  id_number: string;
-  age: number;
-  sex: 'M' | 'F';
-  status: 'encontrado' | 'desaparecido';
-  origin: string;
-  current_location?: string;
-  photo_url?: string;
-}
+import { Person } from "@/services/personService";
 
 export function PersonCard({ person }: { person: Person }) {
   const getInitial = (name: string) => name.charAt(0).toUpperCase();
