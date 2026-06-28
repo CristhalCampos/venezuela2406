@@ -38,16 +38,78 @@ export default function HelpPage() {
   ];
 
   const shelters = [
-    { name: "Complejo Cultural y Deportivo Guayana Esequiba", location: "Parroquia San Bernardino" },
-    { name: "Estadio Chato Candela", location: "Parroquia 23 de Enero" },
-    { name: "Sede del Instituto Nacional de Deportes (IND)", location: "Parroquia El Paraíso" },
-    { name: "Sede de Ipostel (Centro Postal de Caracas)", location: "Parroquia San Juan" },
-    { name: "Liceo Andrés Bello", location: "Centro de Caracas (Refugio temporal)" },
-    { name: "Parque Alí Primera", location: "Catia (Recepción, atención médica y coordinación)" },
-    { name: "Parque Generalísimo Francisco de Miranda", location: "Municipio Sucre (Resguardo para sectores este)" },
-    { name: "Plaza Altamira", location: "Municipio Chacao (Resguardo y clínica móvil)" },
-    { name: "Plaza Bolívar de Chacao", location: "Municipio Chacao (Carpas, insumos y acopio)" },
-    { name: "Coliseo de La Urbina (Antigua sede de PoliSucre)", location: "Refugio temporal y centro de atención" },
+    // Refugios
+    { name: "Complejo Cultural y Deportivo Guayana Esequiba", location: "Parroquia San Bernardino", type: "refugio" },
+    { name: "Estadio Chato Candela", location: "Parroquia 23 de Enero", type: "refugio" },
+    { name: "Sede del Instituto Nacional de Deportes (IND)", location: "Parroquia El Paraíso", type: "refugio" },
+    { name: "Sede de Ipostel (Centro Postal de Caracas)", location: "Parroquia San Juan", type: "refugio" },
+    { name: "Liceo Andrés Bello", location: "Centro de Caracas", type: "refugio" },
+    { name: "Parque Alí Primera", location: "Catia", type: "refugio" },
+    { name: "Parque Generalísimo Francisco de Miranda", location: "Municipio Sucre", type: "refugio" },
+    { name: "Plaza Altamira", location: "Municipio Chacao", type: "refugio" },
+    { name: "Plaza Bolívar de Chacao", location: "Municipio Chacao", type: "refugio" },
+    { name: "Coliseo de La Urbina", location: "Refugio temporal", type: "refugio" },
+    // Centros de acopio
+    { name: "Centro de Acopio Activo El Remanso", location: "San Diego, Carabobo", type: "centro de acopio" },
+    { name: "Mujeres de San Diego en Vanguardia", location: "San Diego, Carabobo", type: "centro de acopio" },
+    { name: "Sede de los Bomberos Municipales / Alcaldía Socialista de Puerto Cabello", location: "Puerto Cabello, Carabobo", type: "centro de acopio" },
+    { name: "colegio Cristo rey", location: "Valencia, Carabobo", type: "centro de acopio" },
+    { name: "Sede de Rotary Puerto la Cruz", location: "Lechería, Anzoátegui", type: "centro de acopio" },
+    { name: "Primo Cafe", location: "Naguanagua, Carabobo", type: "centro de acopio" },
+    { name: "Hotel Manantial", location: "Naguanagua, Carabobo", type: "centro de acopio" },
+    { name: "Sistema Integrado", location: "Valencia, Carabobo", type: "centro de acopio" },
+    { name: "MRW 1150 ALTAMIRA", location: "Caracas, Miranda", type: "centro de acopio" },
+    { name: "MRW 5170 MARACAY LA ROMANA", location: "Maracay, Aragua", type: "centro de acopio" },
+    { name: "MRW 5140 MARACAY LA COOPERATIVA", location: "Maracay, Aragua", type: "centro de acopio" },
+    { name: "MRW 5111 SANTA RITA", location: "Santa Rita, Aragua", type: "centro de acopio" },
+    { name: "MRW 5110 TURMERO ZONA INDUSTRIAL", location: "Turmero, Aragua", type: "centro de acopio" },
+    { name: "MRW 5100 MARACAY LA DEMOCRACIA", location: "Maracay, Aragua", type: "centro de acopio" },
+    { name: "MRW 3000 BARCELONA", location: "Barcelona, Anzoátegui", type: "centro de acopio" },
+    { name: "MRW 1450 CAPITOLIO", location: "Caracas, Distrito Capital", type: "centro de acopio" },
+    { name: "MRW 1430 ANDRÉS BELLO", location: "Caracas, Distrito Capital", type: "centro de acopio" },
+    { name: "MRW 1470 LA CASTELLANA", location: "Caracas, Miranda", type: "centro de acopio" },
+    { name: "MRW 1420 EL VALLE", location: "Caracas, Distrito Capital", type: "centro de acopio" },
+    { name: "MRW 1280 CATIA", location: "Caracas, Distrito Capital", type: "centro de acopio" },
+    { name: "MRW 1410 AV. CASANOVA", location: "Caracas, Distrito Capital", type: "centro de acopio" },
+    { name: "MRW 1300 SANTA MONICA", location: "Caracas, Distrito Capital", type: "centro de acopio" },
+    { name: "MRW 1270 BOLEÍTA", location: "Caracas, Miranda", type: "centro de acopio" },
+    { name: "MRW 1260 EL CEMENTERIO", location: "Caracas, Distrito Capital", type: "centro de acopio" },
+    { name: "MRW 1250 EL HATILLO", location: "El Hatillo, Miranda", type: "centro de acopio" },
+    { name: "Cáritas Barquisimeto", location: "Barquisimeto, Lara", type: "centro de acopio" },
+    { name: "Plaza de Puerto Príncipe", location: "Puerto Píritu, Anzoátegui", type: "centro de acopio" },
+    { name: "Centro de Acopio por Venezuela - Madrid", location: "Madrid, España", type: "centro de acopio" },
+    { name: "Bomberos Guacara", location: "Guacara, Carabobo", type: "centro de acopio" },
+    { name: "CC Forum Plaza - Lechería", location: "Lechería, Anzoátegui", type: "centro de acopio" },
+    { name: "Metalmecanica del centro II, C.A", location: "Valencia, Carabobo", type: "centro de acopio" },
+    { name: "Fitness Factory West", location: "Barquisimeto, Lara", type: "centro de acopio" },
+    { name: "Fitness Factory Cabudare", location: "Cabudare, Lara", type: "centro de acopio" },
+    { name: "Ecocamping / Protección Civil Maturín", location: "Maturín, Monagas", type: "centro de acopio" },
+    { name: "Base de Operaciones Tu Gruero", location: "Caracas, Distrito Capital", type: "centro de acopio" },
+    { name: "JCI Carabobo - Beval C.A.", location: "Valencia, Carabobo", type: "centro de acopio" },
+    { name: "JCI Carabobo - CC Doña Rosa (Aire Valencia)", location: "Valencia, Carabobo", type: "centro de acopio" },
+    // Puntos de ayuda
+    { name: "Res. Los Corsarios, Playa Grande, cerca del hotel Marriott", location: "Maiquetía, La Guaira", type: "punto de ayuda" },
+    { name: "Residencias Los monjes, calle 3, Catia la Mar 1112", location: "Catia La Mar, La Guaira", type: "punto de ayuda" },
+    { name: "Oasis Beach", location: "Maiquetía, La Guaira", type: "punto de ayuda" },
+    { name: "La Mar Suites, Tucacas, Carabobo", location: "Tucacas, Falcón", type: "punto de ayuda" },
+    { name: "Palma Sola, Morón, Centro de Morón", location: "Morón, Carabobo", type: "punto de ayuda" },
+    { name: "Apartamentos Club Bahía Mar", location: "Caraballeda, La Guaira", type: "punto de ayuda" },
+    { name: "Edificio Cambural", location: "Catia La Mar, La Guaira", type: "punto de ayuda" },
+    { name: "Conjunto Residencial Belo Horizonte", location: "Catia La Mar, La Guaira", type: "punto de ayuda" },
+    { name: "Hotel Eduard", location: "Maiquetía, La Guaira", type: "punto de ayuda" },
+    { name: "Hotel Chipi", location: "Catia La Mar, La Guaira", type: "punto de ayuda" },
+    { name: "Edificio frente a Altamira Suites", location: "Caracas, Distrito Capital", type: "punto de ayuda" },
+    { name: "Conjunto Bosque Lindo", location: "Turmero, Aragua", type: "punto de ayuda" },
+    { name: "Hotel La Mar Suites", location: "Tucacas, Falcón", type: "punto de ayuda" },
+    { name: "Universidad Marítima del Caribe", location: "Catia La Mar, La Guaira", type: "punto de ayuda" },
+    { name: "Academia Militar de la Armada Bolivariana", location: "Catia La Mar, La Guaira", type: "punto de ayuda" },
+    { name: "Edificio San Judas Tadeo", location: "Caracas, Distrito Capital", type: "punto de ayuda" },
+    { name: "Edificio Tahiti", location: "Caraballeda, La Guaira", type: "punto de ayuda" },
+    { name: "Hotel La Gabarra del Caribe", location: "Caraballeda, La Guaira", type: "punto de ayuda" },
+    { name: "Residencias Mar de Leva", location: "Caraballeda, La Guaira", type: "punto de ayuda" },
+    { name: "Residencias Vista al Mar", location: "Caraballeda, La Guaira", type: "punto de ayuda" },
+    { name: "Hospital José Gregorio Hernandez", location: "Caracas, Distrito Capital", type: "punto de ayuda" },
+    { name: "Iglesia San Bernardino de Siena", location: "Caracas, Distrito Capital", type: "punto de ayuda" },
   ];
 
   return (
@@ -59,13 +121,28 @@ export default function HelpPage() {
 
       {/* Sección de Refugios */}
       <section>
-        <h3 className="text-xl font-bold text-zinc-800 dark:text-zinc-200 mb-4">Refugios habilitados</h3>
-        <p className="text-zinc-600 dark:text-zinc-400 mb-6">Se han acondicionado diversos espacios públicos e instituciones en Caracas para albergar a las personas afectadas.</p>
+        <p className="text-zinc-600 dark:text-zinc-400 mb-6 text-center">Se han acondicionado diversos espacios públicos e instituciones en Caracas para albergar a las personas afectadas.</p>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {shelters.map((shelter, index) => (
-            <div key={index} className="p-4 bg-zinc-50 dark:bg-zinc-800 rounded-xl border border-zinc-200 dark:border-zinc-700">
-              <h4 className="font-bold text-blue-600 dark:text-blue-400">{shelter.name}</h4>
-              <p className="text-sm text-zinc-600 dark:text-zinc-300">{shelter.location}</p>
+          {shelters.map((s, i) => (
+            <div key={i} className="p-4 border rounded shadow-sm bg-white dark:bg-zinc-800">
+              <div className="flex justify-between items-start">
+                <h3 className="font-bold text-lg">{s.name}</h3>
+                <span
+                  className={`text-xs px-2 py-1 rounded-full uppercase font-bold text-center inline-block min-w-22 truncate ${
+                  s.type === 'refugio'
+                    ? 'bg-blue-100 text-blue-700'
+                    : s.type === 'centro de acopio'
+                      ? 'bg-green-100 text-green-700'
+                      : s.type === 'punto de ayuda'
+                        ? 'bg-amber-100 text-amber-700' // Color para punto de ayuda
+                        : 'bg-gray-100 text-gray-700'    // Color por defecto si no coincide ninguno
+                }`}
+                  title={s.type} // El title ayuda a ver el texto completo si se corta por el truncate
+                >
+                  {s.type}
+                </span>
+              </div>
+              <p className="text-sm text-zinc-600 dark:text-zinc-400 mt-2">{s.location}</p>
             </div>
           ))}
         </div>
@@ -73,7 +150,7 @@ export default function HelpPage() {
 
       {/* Sección de Psicología */}
       <section>
-        <h3 className="text-xl font-bold text-zinc-800 dark:text-zinc-200 mb-4">Atención psicológica</h3>
+        <h3 className="text-xl font-bold text-center text-zinc-800 dark:text-zinc-200 mb-4">Atención psicológica</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {psychologicalSupport.map((item, index) => (
             <div key={index} className="p-6 bg-white dark:bg-zinc-800 rounded-2xl border border-zinc-200 dark:border-zinc-700 shadow-sm">
