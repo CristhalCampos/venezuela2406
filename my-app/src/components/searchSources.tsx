@@ -13,7 +13,7 @@ interface SearchSourcesProps {
 
 export function SearchSources({ externalSites, telegramBots }: SearchSourcesProps) {
   return (
-    <aside className="w-full md:w-96 flex flex-col gap-3">
+    <aside className="w-full lg:w-96 flex flex-col gap-3">
       <h2 className="font-bold text-xl text-zinc-900 dark:text-zinc-100 mb-2 border-b-2 border-yellow-400 pb-1">
         Fuentes de búsqueda
       </h2>
