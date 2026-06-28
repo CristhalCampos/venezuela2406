@@ -20,7 +20,7 @@ export async function searchPerson(query: string, page: number = 0) {
     if (query && query.trim().length >= 3) {
       const term = `%${query.trim()}%`;
       queryBuilder = queryBuilder.or(
-        `full_name.ilike.${term},origin.ilike.${term},current_location.ilike.${term}`
+        `full_name.ilike.${term},id_number.ilike.${term},origin.ilike.${term},current_location.ilike.${term}`
       );
     }
 
