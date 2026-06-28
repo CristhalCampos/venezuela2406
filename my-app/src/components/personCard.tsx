@@ -21,7 +21,7 @@ export function PersonCard({ person }: { person: Person }) {
         <div className="flex justify-between items-start mb-2">
           <h4 className="font-bold text-lg">{person.full_name}</h4>
           <div className="flex items-center gap-2">
-            <span className={`px-2 py-0.5 text-[10px] rounded-full uppercase ${person.status === 'encontrado' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
+            <span className={`px-2 py-0.5 text-[10px] font-semibold rounded-full uppercase ${person.status === 'encontrado' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-700'}`}>
               {person.status}
             </span>
             <span className={`w-3 h-3 rounded-full ${person.sex === 'F' ? 'bg-red-500' : 'bg-blue-500'}`} title={person.sex} />
@@ -47,7 +47,7 @@ export function PersonCard({ person }: { person: Person }) {
 
         {/* Campos extra: reported_by y date */}
         {(person.reported_by || person.date) && (
-          <div className="mt-2 flex flex-wrap gap-2 text-[11px] text-zinc-500 dark:text-zinc-500 border-t pt-2 mt-2">
+          <div className="mt-2 flex flex-wrap gap-2 text-[11px] text-zinc-500 dark:text-zinc-500 border-t pt-2">
             {person.reported_by && (
               <p><strong>Reportado por:</strong> {person.reported_by}</p>
             )}

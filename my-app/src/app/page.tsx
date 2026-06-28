@@ -11,40 +11,74 @@ export default function Home() {
   const [isFetchingMore, setIsFetchingMore] = useState(false);
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<Person[]>([]);
+  const [hospitals, setHospitals] = useState<string[]>([]);
+  const [selectedHospital, setSelectedHospital] = useState<string | null>(null);
   const [page, setPage] = useState(0);
   const [hasMore, setHasMore] = useState(true);
   const observer = useRef<IntersectionObserver | null>(null);
 
+  // 1. Cargar lista de hospitales (solo una vez)
+  useEffect(() => {
+    fetch('https://911.ubica.me/public/data/hospitales.json')
+      .then(res => res.json())
+      .then(data => {
+        const hospitalRegex = /^hospital/i;
+        const names = Array.from(new Set(
+          data.filter((i: any) => hospitalRegex.test(i.last_known_location))
+              .map((i: any) => i.last_known_location)
+        )) as string[];
+        setHospitals(names.sort());
+      });
+  }, []);
+  
+  // 2. Lógica de carga (Paginada o Filtrada)
   const loadData = useCallback(async (isNewSearch: boolean = false) => {
-    if (isNewSearch) setLoading(true);
-    else setIsFetchingMore(true); // Solo activamos este si es paginación
+    if (selectedHospital) {
+      // Si hay hospital, traemos todo (sin paginación compleja)
+      setLoading(true);
+      const res = await fetch('https://911.ubica.me/public/data/hospitales.json');
+      const data = await res.json();
+      const filtered = data
+        .filter((i: any) => i.last_known_location === selectedHospital)
+        .map((i: any) => ({
+          id: i.id || Math.random(),
+          full_name: i.full_name,
+          id_number: i.id_number || "N/A",
+          age: i.age || 0,
+          sex: 'M',
+          status: 'encontrado',
+          current_location: i.last_known_location,
+          date: i.source_date,
+          reported_by: "ubica.me"
+        }));
+      setResults(filtered);
+      setHasMore(false); // Desactivamos paginación en filtro
+      setLoading(false);
+    } else {
+      // Búsqueda paginada normal
+      if (isNewSearch) setLoading(true);
+      else setIsFetchingMore(true);
 
-    try {
-      const currentPage = isNewSearch ? 0 : page;
-      const data = await searchPerson(query, currentPage);
-      
+      const data = await searchPerson(query, isNewSearch ? 0 : page);
       setResults(prev => isNewSearch ? data : [...prev, ...data]);
       setHasMore(data.length === 10);
-    } catch (err) {
-      console.error(err);
-    } finally {
       setLoading(false);
       setIsFetchingMore(false);
     }
-  }, [query, page]);
+  }, [query, page, selectedHospital]);
 
-  // Efecto para búsqueda
+  // Efectos de búsqueda y paginación
   useEffect(() => {
-    const delay = setTimeout(() => {
-      setPage(0);
+    if (selectedHospital) {
       loadData(true);
-    }, 500);
-    return () => clearTimeout(delay);
-  }, [query]);
+    } else {
+      const delay = setTimeout(() => { setPage(0); loadData(true); }, 500);
+      return () => clearTimeout(delay);
+    }
+  }, [query, selectedHospital]);
 
-  // Efecto para paginación (cuando cambia la página)
   useEffect(() => {
-    if (page > 0) loadData(false);
+    if (page > 0 && !selectedHospital) loadData(false);
   }, [page]);
 
   // Referencia para el scroll infinito
@@ -80,7 +114,34 @@ export default function Home() {
             Búsqueda centralizada
           </h1>
           <p className="mt-2 text-zinc-600 dark:text-zinc-400 mb-6">
-            Ingresa el nombre, apellido o lugar de residencia de la persona para buscar en nuestra fuente.
+            Selecciona un hospital
+          </p>
+          <div className="flex flex-wrap gap-2 mb-6 pb-2">
+            <button
+              onClick={() => setSelectedHospital(null)}
+              className={`px-4 py-2 rounded-full text-sm font-bold transition-colors ${
+                !selectedHospital ? 'bg-blue-600 text-white' : 'bg-zinc-300 dark:bg-zinc-700 hover:bg-zinc-600'
+              }`}
+            >
+              Todos
+            </button>
+            
+            {hospitals.map(h => (
+              <button
+                key={h}
+                onClick={() => setSelectedHospital(h)}
+                className={`px-3 py-2 rounded-full text-xs font-medium transition-colors ${
+                  selectedHospital === h
+                    ? 'bg-green-800 text-white'
+                    : 'bg-zinc-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 hover:border-green-500'
+                }`}
+              >
+                {h}
+              </button>
+            ))}
+          </div>
+          <p className="mt-2 text-zinc-600 dark:text-zinc-400 mb-6">
+            Ó ingresa el nombre, apellido o CI de la persona para buscar en nuestras fuentes.
           </p>
 
           <div className="relative flex items-center">
@@ -88,9 +149,14 @@ export default function Home() {
             <input
               type="text"
               placeholder="Ej: Juan Pérez..."
-              className="w-full pl-10 pr-4 py-3 border-2 border-zinc-200 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all dark:bg-zinc-800"
+              className={`w-full pl-10 pr-4 py-3 border-2 rounded-lg outline-none transition-all
+                ${!!selectedHospital
+                  ? 'bg-zinc-200 dark:bg-zinc-900 border-zinc-200 dark:border-zinc-800 opacity-50 cursor-not-allowed'
+                  : 'bg-zinc-300 dark:bg-zinc-800 border-zinc-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200'
+                }`}
               value={query}
               onChange={(e) => setQuery(e.target.value)}
+              disabled={!!selectedHospital}
             />
           </div>
 
