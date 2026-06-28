@@ -1,11 +1,61 @@
 "use client";
 
-import { useState } from "react";
-import { ExternalLink } from "lucide-react";
-import Link from "next/link";
+import { useState, useEffect, useRef, useCallback } from "react";
+import { Search, Loader2 } from "lucide-react";
+import { searchPerson } from "@/app/actions";
+import { PersonCard, Person } from "@/components/personCard";
+import { SearchSources } from "@/components/searchSources";
 
 export default function Home() {
+  const [loading, setLoading] = useState(false);
+  const [isFetchingMore, setIsFetchingMore] = useState(false);
   const [query, setQuery] = useState("");
+  const [results, setResults] = useState<Person[]>([]);
+  const [page, setPage] = useState(0);
+  const [hasMore, setHasMore] = useState(true);
+  const observer = useRef<IntersectionObserver | null>(null);
+
+  const loadData = useCallback(async (isNewSearch: boolean = false) => {
+    if (isNewSearch) setLoading(true);
+    else setIsFetchingMore(true); // Solo activamos este si es paginación
+
+    try {
+      const currentPage = isNewSearch ? 0 : page;
+      const data = await searchPerson(query, currentPage);
+      
+      setResults(prev => isNewSearch ? data : [...prev, ...data]);
+      setHasMore(data.length === 10);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false);
+      setIsFetchingMore(false);
+    }
+  }, [query, page]);
+
+  // Efecto para búsqueda
+  useEffect(() => {
+    const delay = setTimeout(() => {
+      setPage(0);
+      loadData(true);
+    }, 500);
+    return () => clearTimeout(delay);
+  }, [query]);
+
+  // Efecto para paginación (cuando cambia la página)
+  useEffect(() => {
+    if (page > 0) loadData(false);
+  }, [page]);
+
+  // Referencia para el scroll infinito
+  const lastElementRef = useCallback((node: HTMLDivElement | null) => {
+    if (observer.current) observer.current.disconnect();
+    observer.current = new IntersectionObserver(entries => {
+      if (entries[0].isIntersecting && hasMore) setPage(prev => prev + 1);
+    });
+    if (node) observer.current.observe(node);
+  }, [hasMore]);
+
   const externalSites = [
     { name: "Venezuela te busca", url: "https://venezuelatebusca.com" },
     { name: "Desaparecidos Terremoto Venezuela", url: "https://desaparecidosterremotovenezuela.com" },
@@ -21,112 +71,54 @@ export default function Home() {
   ];
 
   return (
-    <div className="flex flex-col flex-1 items-center justify-center p-4 md:p-6 gap-4">
-      <h2 className="font-bold text-xl text-zinc-900 dark:text-zinc-100 mb-2 border-b-2 border-yellow-400 pb-1">
-        Fuentes de búsqueda
-      </h2>
+    <div className="flex flex-col md:flex-row w-full p-4 md:p-6 gap-8">
+      <SearchSources externalSites={externalSites} telegramBots={telegramBots} />
 
-      <div className="flex flex-col items-center gap-1">
-        <h3 className="font-bold text-zinc-900 dark:text-zinc-100 mt-2 mb-2">Sitios Web</h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {externalSites.map((site) => (
-            <Link
-              key={site.url}
-              href={site.url}
-              target="_blank"
-              className="flex items-center justify-between py-6 px-3 gap-1 bg-zinc-100 dark:bg-zinc-800 rounded-lg hover:text-blue-600 hover:bg-blue-50 dark:hover:text-blue-400 dark:hover:bg-zinc-700 transition-colors border-l-3 border-blue-500"
-            >
-              {site.name}
-              <ExternalLink size={16} />
-            </Link>
-          ))}
+      <section className="flex-1 w-full">
+        <div>
+          <h1 className="text-3xl font-bold text-zinc-900 dark:text-zinc-100">
+            Búsqueda centralizada
+          </h1>
+          <p className="mt-2 text-zinc-600 dark:text-zinc-400 mb-6">
+            Ingresa el nombre, apellido o lugar de residencia de la persona para buscar en nuestra fuente.
+          </p>
+
+          <div className="relative flex items-center">
+            <Search className="absolute left-3 text-blue-600" size={20} />
+            <input
+              type="text"
+              placeholder="Ej: Juan Pérez..."
+              className="w-full pl-10 pr-4 py-3 border-2 border-zinc-200 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all dark:bg-zinc-800"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+            />
+          </div>
+
+          <div className="mt-6">
+            {loading && (
+              <div className="flex justify-center p-10">
+                <Loader2 className="animate-spin text-blue-600" size={32} />
+              </div>
+            )}
+
+            {!loading && results.length > 0 && (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {results.map((p, i) => (
+                  <div key={p.id} ref={i === results.length - 1 ? lastElementRef : null}>
+                    <PersonCard person={p} />
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {isFetchingMore && (
+              <p className="text-center mt-4 text-blue-500 flex items-center justify-center gap-2">
+                <Loader2 className="animate-spin" /> Cargando más...
+              </p>
+            )}
+          </div>
         </div>
-      </div>
-
-      <div className="flex flex-col items-center gap-1">
-        <h3 className="font-bold text-zinc-900 dark:text-zinc-100 mt-6 mb-2">Bots de Telegram</h3>
-        {telegramBots.map((bot) => (
-          <Link
-            key={bot.url}
-            href={bot.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center justify-between py-6 px-3 bg-zinc-100 dark:bg-zinc-800 rounded-lg hover:text-blue-600 hover:bg-blue-50 dark:hover:text-blue-400 dark:hover:bg-zinc-700 transition-colors border-l-3 border-blue-500"
-          >
-            {bot.name}
-            <ExternalLink size={16} />
-          </Link>
-        ))}
-      </div>
+      </section>
     </div>
   );
-
-  // return (
-  //   <div className="flex flex-col md:flex-row w-full min-h-[calc(100vh-64px)] p-4 md:p-6 gap-8">
-  //     {/* Fuentes */}
-  //     <aside className="w-full md:w-96 flex flex-col gap-3">
-  //       <h2 className="font-bold text-xl text-zinc-900 dark:text-zinc-100 mb-2 border-b-2 border-yellow-400 pb-1">
-  //         Fuentes de búsqueda
-  //       </h2>
-
-  //       <div className="flex flex-col gap-1">
-  //         <h3 className="font-bold text-zinc-900 dark:text-zinc-100 mt-2 mb-2">Sitios Web</h3>
-  //         {externalSites.map((site) => (
-  //           <Link
-  //             key={site.url}
-  //             href={site.url}
-  //             target="_blank"
-  //             className="flex items-center justify-between p-3 bg-zinc-100 dark:bg-zinc-800 rounded-lg hover:text-blue-600 hover:bg-blue-50 dark:hover:bg-zinc-700 transition-colors border-l-3 border-blue-500"
-  //           >
-  //             {site.name}
-  //             <ExternalLink size={16} />
-  //           </Link>
-  //         ))}
-  //       </div>
-
-  //       <div className="flex flex-col gap-1">
-  //         <h3 className="font-bold text-zinc-900 dark:text-zinc-100 mt-6 mb-2">Bots de Telegram</h3>
-  //         {telegramBots.map((bot) => (
-  //           <Link
-  //             key={bot.url}
-  //             href={bot.url}
-  //             target="_blank"
-  //             rel="noopener noreferrer"
-  //             className="flex items-center justify-between p-3 bg-zinc-100 dark:bg-zinc-800 rounded-lg hover:text-blue-600 hover:bg-blue-50 dark:hover:bg-zinc-700 transition-colors border-l-3 border-blue-500"
-  //           >
-  //             {bot.name}
-  //             <ExternalLink size={16} />
-  //           </Link>
-  //         ))}
-  //       </div>
-  //     </aside>
-
-  //     {/* Sección de busqueda */}
-  //     <section className="flex-1">
-  //       <div className="max-w-2xl">
-  //         <h1 className="text-3xl font-bold text-zinc-900 dark:text-zinc-100">
-  //           Búsqueda centralizada
-  //         </h1>
-  //         <p className="mt-2 text-zinc-600 dark:text-zinc-400 mb-6">
-  //           Ingresa el nombre, apellido o lugar de residencia de la persona para buscar en nuestra fuente.
-  //         </p>
-
-  //         <div className="relative flex items-center">
-  //           <Search className="absolute left-3 text-blue-600" size={20} />
-  //           <input
-  //             type="text"
-  //             placeholder="Ej: Juan Pérez..."
-  //             className="w-full pl-10 pr-4 py-3 border-2 border-zinc-200 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all dark:bg-zinc-800"
-  //             value={query}
-  //             onChange={(e) => setQuery(e.target.value)}
-  //           />
-  //         </div>
-
-  //         <div className="mt-6 p-6 border-2 border-dashed border-yellow-200 bg-yellow-50/50 dark:bg-yellow-900/10 rounded-lg text-center text-zinc-600 dark:text-zinc-400">
-  //           Los resultados aparecerán aquí próximamente.
-  //         </div>
-  //       </div>
-  //     </section>
-  //   </div>
-  // );
 }

@@ -54,7 +54,7 @@ export default function HelpPage() {
           <div key={index} className="p-6 bg-white dark:bg-zinc-800 rounded-2xl border border-zinc-200 dark:border-zinc-700 shadow-sm">
             <h3 className="text-xl font-bold text-blue-700 dark:text-blue-400 mb-3">{item.organization}</h3>
             <p className="text-sm text-zinc-500 mb-4 font-medium">{item.schedule}</p>
-            <div className="grid grid-cols-3 gap-2">
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
               {item.phones.map((phone, i) => (
                 <span
                   key={i}
