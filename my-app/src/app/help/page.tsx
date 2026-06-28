@@ -121,7 +121,7 @@ export default function HelpPage() {
 
       {/* Sección de Refugios */}
       <section>
-        <p className="text-zinc-600 dark:text-zinc-400 mb-6 text-center">Se han acondicionado diversos espacios públicos e instituciones en Caracas para albergar a las personas afectadas.</p>
+        <h3 className="text-xl font-bold text-center text-zinc-800 dark:text-zinc-200 mb-4">Diversos espacios públicos e instituciones como refugios, centros de acopio y puntos de ayuda</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {shelters.map((s, i) => (
             <div key={i} className="p-4 border rounded shadow-sm bg-white dark:bg-zinc-800">
