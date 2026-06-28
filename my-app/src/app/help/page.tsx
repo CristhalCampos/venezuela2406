@@ -37,36 +37,59 @@ export default function HelpPage() {
     },
   ];
 
-  return (
-    <div className="flex flex-col flex-1 items-center justify-center p-4 md:p-6 gap-4">
-      <h1 className="text-3xl font-bold text-zinc-900 dark:text-zinc-100">
-        Ayuda
-      </h1>
-      <p className="text-lg text-zinc-700 dark:text-zinc-300">
-        Aquí puedes encontrar información y recursos de ayuda.
-      </p>
+  const shelters = [
+    { name: "Complejo Cultural y Deportivo Guayana Esequiba", location: "Parroquia San Bernardino" },
+    { name: "Estadio Chato Candela", location: "Parroquia 23 de Enero" },
+    { name: "Sede del Instituto Nacional de Deportes (IND)", location: "Parroquia El Paraíso" },
+    { name: "Sede de Ipostel (Centro Postal de Caracas)", location: "Parroquia San Juan" },
+    { name: "Liceo Andrés Bello", location: "Centro de Caracas (Refugio temporal)" },
+    { name: "Parque Alí Primera", location: "Catia (Recepción, atención médica y coordinación)" },
+    { name: "Parque Generalísimo Francisco de Miranda", location: "Municipio Sucre (Resguardo para sectores este)" },
+    { name: "Plaza Altamira", location: "Municipio Chacao (Resguardo y clínica móvil)" },
+    { name: "Plaza Bolívar de Chacao", location: "Municipio Chacao (Carpas, insumos y acopio)" },
+    { name: "Coliseo de La Urbina (Antigua sede de PoliSucre)", location: "Refugio temporal y centro de atención" },
+  ];
 
-      <h3 className="mt-4 text-lg font-semibold text-zinc-600 dark:text-zinc-400">
-        Atención psicológica
-      </h3>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {psychologicalSupport.map((item, index) => (
-          <div key={index} className="p-6 bg-white dark:bg-zinc-800 rounded-2xl border border-zinc-200 dark:border-zinc-700 shadow-sm">
-            <h3 className="text-xl font-bold text-blue-700 dark:text-blue-400 mb-3">{item.organization}</h3>
-            <p className="text-sm text-zinc-500 mb-4 font-medium">{item.schedule}</p>
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
-              {item.phones.map((phone, i) => (
-                <span
-                  key={i}
-                  className="text-sm bg-zinc-100 dark:bg-zinc-700 p-2 rounded hover:bg-blue-200 dark:hover:bg-blue-900 transition-colors text-center"
-                >
-                  {phone}
-                </span>
-              ))}
-            </div>
-          </div>
-        ))}
+  return (
+    <div className="flex flex-col flex-1 p-4 md:p-6 gap-8 max-w-7xl mx-auto">
+      <div className="text-center">
+        <h1 className="text-3xl font-bold text-zinc-900 dark:text-zinc-100">Ayuda</h1>
+        <p className="text-lg text-zinc-700 dark:text-zinc-300">Aquí puedes encontrar información y recursos de ayuda.</p>
       </div>
+
+      {/* Sección de Refugios */}
+      <section>
+        <h3 className="text-xl font-bold text-zinc-800 dark:text-zinc-200 mb-4">Refugios habilitados</h3>
+        <p className="text-zinc-600 dark:text-zinc-400 mb-6">Se han acondicionado diversos espacios públicos e instituciones en Caracas para albergar a las personas afectadas.</p>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {shelters.map((shelter, index) => (
+            <div key={index} className="p-4 bg-zinc-50 dark:bg-zinc-800 rounded-xl border border-zinc-200 dark:border-zinc-700">
+              <h4 className="font-bold text-blue-600 dark:text-blue-400">{shelter.name}</h4>
+              <p className="text-sm text-zinc-600 dark:text-zinc-300">{shelter.location}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Sección de Psicología */}
+      <section>
+        <h3 className="text-xl font-bold text-zinc-800 dark:text-zinc-200 mb-4">Atención psicológica</h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {psychologicalSupport.map((item, index) => (
+            <div key={index} className="p-6 bg-white dark:bg-zinc-800 rounded-2xl border border-zinc-200 dark:border-zinc-700 shadow-sm">
+              <h3 className="text-xl font-bold text-blue-700 dark:text-blue-400 mb-3">{item.organization}</h3>
+              <p className="text-sm text-zinc-500 mb-4 font-medium">{item.schedule}</p>
+              <div className="grid grid-cols-2 gap-2">
+                {item.phones.map((phone, i) => (
+                  <span key={i} className="text-xs bg-zinc-100 dark:bg-zinc-700 p-2 rounded text-center">
+                    {phone}
+                  </span>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
     </div>
   );
 }
