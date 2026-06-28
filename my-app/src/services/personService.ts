@@ -44,9 +44,9 @@ function mapExternalToPerson(item: any): Person {
     age: extractInfo('edad') || undefined,
     sex: undefined,
     status: 'encontrado',
-    reported_by: parts.length > 0 ? parts[0] : undefined,
+    reported_by: extractInfo('localizado por') || parts.length > 0 ? parts[0] : undefined,
     current_location: extractInfo('ubicación') || extractInfo('lugar'),
-    date: extractInfo('fecha'),
+    date: extractInfo('fecha') || undefined,
   };
 }
 

@@ -28,15 +28,32 @@ export function PersonCard({ person }: { person: Person }) {
           </div>
         </div>
         
+        {/* Datos básicos con validación simple */}
         <p className="text-sm text-zinc-600 dark:text-zinc-400">
-          {person.age} años | CI: {person.id_number}
+          {person.age ? `${person.age} años | ` : ''} CI: {person.id_number || 'N/A'}
         </p>
-        <p className="text-sm text-zinc-600 dark:text-zinc-400">Lugar de residencia: {person.origin}</p>
+        
+        {person.origin && (
+          <p className="text-sm text-zinc-600 dark:text-zinc-400">Residencia: {person.origin}</p>
+        )}
 
-        {person.status === 'encontrado' && person.current_location && (
+        {/* Ubicación y Info adicional */}
+        {person.current_location && (
           <div className="mt-3 p-2 bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300 rounded border border-blue-200">
             <span className="font-semibold text-[10px] uppercase block">Ubicación actual:</span>
             <p className="text-sm">{person.current_location}</p>
+          </div>
+        )}
+
+        {/* Campos extra: reported_by y date */}
+        {(person.reported_by || person.date) && (
+          <div className="mt-2 flex flex-wrap gap-2 text-[11px] text-zinc-500 dark:text-zinc-500 border-t pt-2 mt-2">
+            {person.reported_by && (
+              <p><strong>Reportado por:</strong> {person.reported_by}</p>
+            )}
+            {person.date && (
+              <p><strong>Fecha:</strong> {new Date(person.date).toLocaleDateString()}</p>
+            )}
           </div>
         )}
       </div>
