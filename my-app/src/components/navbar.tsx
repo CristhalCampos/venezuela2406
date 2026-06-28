@@ -3,13 +3,14 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Search, Activity, HelpCircle, Package, Plus, Menu, X } from "lucide-react";
+import { Search, ListFilter, Activity, HelpCircle, Plus, Menu, X } from "lucide-react";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
 
   const links = [
     { name: "Busqueda", href: "/", icon: Search },
+    { name: "Fuentes", href: "/sources", icon: ListFilter},
     // { name: "Estadísticas", href: "/statistics", icon: BarChart },
     { name: "Ayuda", href: "/help", icon: HelpCircle },
     // { name: "Centros de acopio", href: "/centers", icon: Package },
