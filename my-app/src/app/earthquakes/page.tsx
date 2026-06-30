@@ -1,22 +1,46 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
+import dynamic from 'next/dynamic';
+
+const Map = dynamic(() => import('@/components/earthquakeMap'), {
+  ssr: false,
+  loading: () => <div className="h-64 w-full bg-zinc-100 animate-pulse rounded-lg" />
+});
+
+export interface Earthquake {
+  id: string;
+  location: string;
+  date: string;
+  magnitude: number;
+  lat: number;
+  lon: number;
+  depth: number;
+}
 
 export default function EarthquakesPage() {
+  const [earthquakes, setEarthquakes] = useState<Earthquake[]>([]);
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
     setIsMounted(true);
   }, []);
 
-  const earthquakes = [
-    { id: 1, location: "54 km N of El Limón, Venezuela", date: "2026-06-26T18:16:00", magnitude: 4.7 },
-    { id: 2, location: "17 km WSW of Morón, Venezuela", date: "2026-06-26T00:19:00", magnitude: 4.4 },
-    { id: 3, location: "5 km NE of Guatire, Venezuela", date: "2026-06-25T01:48:00", magnitude: 4.4 },
-    { id: 4, location: "13 km N of Caucagüito, Venezuela", date: "2026-06-24T18:23:00", magnitude: 4.5 },
-    { id: 5, location: "28 km SE of Yumare, Venezuela", date: "2026-06-24T18:05:00", magnitude: 7.5 },
-    { id: 6, location: "23 km SE of Yumare, Venezuela", date: "2026-06-24T18:04:30", magnitude: 7.2 },
-  ];
+  useEffect(() => {
+    const data: Earthquake[] = [
+      { id: "1", location: "27 km N of Caraballeda, Venezuela", date: "2026-06-29T11:01:03.516Z", magnitude: 4.6, lat: 10.8601, lon: -66.8435, depth: 10 },
+      { id: "2", location: "19 km WSW of Morón, Venezuela", date: "2026-06-28T09:33:58.852Z", magnitude: 4.3, lat: 10.4497, lon: -68.3766, depth: 10 },
+      { id: "3", location: "20 km W of Boca de Aroa, Venezuela", date: "2026-06-28T08:46:10.376Z", magnitude: 4.5, lat: 10.6806, lon: -68.4901, depth: 10 },
+      { id: "4", location: "35 km NNE of El Limón, Venezuela", date: "2026-06-27T19:20:36.606Z", magnitude: 4.8, lat: 10.6023, lon: -67.5112, depth: 10 },
+      { id: "5", location: "54 km N of El Limón, Venezuela", date: "2026-06-26T22:16:11.931Z", magnitude: 4.7, lat: 10.8, lon: -67.5993, depth: 10 },
+      { id: "6", location: "17 km WSW of Morón, Venezuela", date: "2026-06-26T04:19:30.378Z", magnitude: 4.4, lat: 10.4537, lon: -68.3607, depth: 10 },
+      { id: "7", location: "5 km NE of Guatire, Venezuela", date: "2026-06-25T05:48:23.136Z", magnitude: 4.4, lat: 10.5111, lon: -66.5057, depth: 10 },
+      { id: "8", location: "12 km NNE of Caucagüito, Venezuela", date: "2026-06-24T22:23:53.774Z", magnitude: 4.5, lat: 10.5911, lon: -66.6976, depth: 10 },
+      { id: "9", location: "28 km SE of Yumare, Venezuela", date: "2026-06-24T22:05:11.566Z", magnitude: 7.5, lat: 10.4351, lon: -68.4716, depth: 10 },
+      { id: "10", location: "23 km SE of Yumare, Venezuela", date: "2026-06-24T22:04:33.389Z", magnitude: 7.2, lat: 10.436, lon: -68.5277, depth: 20.294 }
+    ];
+    setEarthquakes(data);
+  }, []);
 
   const getTimeAgo = (dateString: string) => {
     const now = new Date();
@@ -39,23 +63,31 @@ export default function EarthquakesPage() {
   }, []);
 
   return (
-    <div className="flex flex-col flex-1 items-center justify-center p-4 md:p-6 gap-4">
+    <div className="flex flex-col flex-1 items-center justify-center p-4 md:p-6 gap-2">
       <h1 className="text-3xl font-bold text-zinc-900 dark:text-zinc-100">Sismos</h1>
-      <p className="text-lg text-zinc-600 dark:text-zinc-400 mb-8">
+      <p className="text-lg text-zinc-600 dark:text-zinc-400 mb-2">
         Monitoreo de movimientos sísmicos en Venezuela.
       </p>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {/* Mapa */}
+      <div className="h-96 w-full rounded-2xl overflow-hidden border border-zinc-200">
+        <Map earthquakes={earthquakes} />
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full">
         {earthquakes.map((earthquake) => (
-          <div key={earthquake.id} className="flex items-center p-4 bg-white dark:bg-zinc-800 rounded-lg border border-zinc-200 dark:border-zinc-700 shadow-sm hover:border-blue-500 transition-all">
-            {/* Badge de Magnitud */}
-            <div className="w-16 h-16 flex items-center justify-center bg-red-600 text-white font-bold text-xl rounded-md mr-4 shrink-0">
-              {earthquake.magnitude}
+          <div key={earthquake.id} className="p-4 bg-white dark:bg-zinc-800 rounded-xl border border-zinc-200 dark:border-zinc-700 shadow-sm hover:border-blue-500 transition-all flex gap-4">
+            <div className="flex flex-col items-center justify-center bg-red-700 px-3 py-2 rounded-lg">
+              <span className="text-2xl font-black text-white">{earthquake.magnitude}</span>
+              <span className="text-[10px] text-zinc-300 font-bold uppercase">Prof: {earthquake.depth}km</span>
             </div>
-            
-            <div className="flex-1">
-              <h3 className="font-semibold text-zinc-900 dark:text-zinc-100">{earthquake.location}</h3>
-              <p>{isMounted ? getTimeAgo(earthquake.date) : "Cargando..."}</p>
+            <div className="flex flex-col justify-center">
+              <h3 className="font-bold text-zinc-900 dark:text-zinc-100 text-sm leading-tight mb-1">
+                {earthquake.location}
+              </h3>
+              <p className="text-xs text-zinc-500 dark:text-zinc-400 font-medium">
+                {isMounted ? getTimeAgo(earthquake.date) : "Cargando..."}
+              </p>
             </div>
           </div>
         ))}

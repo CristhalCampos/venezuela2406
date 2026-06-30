@@ -30,6 +30,7 @@ export default function SourcesPage() {
   const telegramBots = [
     { name: "Personas encontradas VE", url: "https://t.me/encontrados_ve_bot" },
     { name: "PALMédico AI", url: "https://t.me/Palmedicoai_bot" },
+    { name: "PorlaGuaira", url: "https://t.me/porlaguaira_bot" },
   ];
 
   const whatsappBots = [
