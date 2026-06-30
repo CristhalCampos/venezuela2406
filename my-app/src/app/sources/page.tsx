@@ -14,7 +14,7 @@ interface SearchSourcesProps {
 }
 
 export default function SourcesPage() {
-    const externalSites = [
+  const externalSites = [
     { name: "Venezuela te busca", url: "https://venezuelatebusca.com" },
     { name: "Desaparecidos Terremoto Venezuela", url: "https://desaparecidosterremotovenezuela.com" },
     { name: "Encuéntralos", url: "https://encuentralos.tecnosoft.dev" },
@@ -26,8 +26,15 @@ export default function SourcesPage() {
     { name: "Localizados VE", url: "https://localizadosvenezuela.com" },
     { name: "Registro de Rescatados", url: "https://rescatadosvzla.com/" },
   ];
+
   const telegramBots = [
     { name: "Personas encontradas VE", url: "https://t.me/encontrados_ve_bot" },
+    { name: "PALMédico AI", url: "https://t.me/Palmedicoai_bot" },
+  ];
+
+  const whatsappBots = [
+    { name: "FlowBot", url: "https://wa.me/17826234061" },
+    { name: "Encuentrame VE", url: "https://wa.me/19542871519" },
   ];
   
   return (
@@ -41,6 +48,8 @@ export default function SourcesPage() {
           <SourceSection title="Sitios Web" items={externalSites} />
           {/* Renderizado de Bots de Telegram */}
           <SourceSection title="Bots de Telegram" items={telegramBots} />
+          {/* Renderizado de Bots de Whatsapp */}
+          <SourceSection title="Bots de Whatsapp" items={whatsappBots} />
         </div>
       </section>
     </div>

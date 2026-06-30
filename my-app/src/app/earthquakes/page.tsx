@@ -15,7 +15,7 @@ export default function EarthquakesPage() {
     { id: 3, location: "5 km NE of Guatire, Venezuela", date: "2026-06-25T01:48:00", magnitude: 4.4 },
     { id: 4, location: "13 km N of Caucagüito, Venezuela", date: "2026-06-24T18:23:00", magnitude: 4.5 },
     { id: 5, location: "28 km SE of Yumare, Venezuela", date: "2026-06-24T18:05:00", magnitude: 7.5 },
-    { id: 6, location: "23 km SE of Yumare, Venezuela", date: "2026-06-24T18:04:50", magnitude: 7.2 },
+    { id: 6, location: "23 km SE of Yumare, Venezuela", date: "2026-06-24T18:04:30", magnitude: 7.2 },
   ];
 
   const getTimeAgo = (dateString: string) => {
