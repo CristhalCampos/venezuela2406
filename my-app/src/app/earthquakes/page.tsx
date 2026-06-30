@@ -16,6 +16,7 @@ export interface Earthquake {
   lat: number;
   lon: number;
   depth: number;
+  source: string;
 }
 
 export default function EarthquakesPage() {
@@ -28,16 +29,16 @@ export default function EarthquakesPage() {
 
   useEffect(() => {
     const data: Earthquake[] = [
-      { id: "1", location: "27 km N of Caraballeda, Venezuela", date: "2026-06-29T11:01:03.516Z", magnitude: 4.6, lat: 10.8601, lon: -66.8435, depth: 10 },
-      { id: "2", location: "19 km WSW of Morón, Venezuela", date: "2026-06-28T09:33:58.852Z", magnitude: 4.3, lat: 10.4497, lon: -68.3766, depth: 10 },
-      { id: "3", location: "20 km W of Boca de Aroa, Venezuela", date: "2026-06-28T08:46:10.376Z", magnitude: 4.5, lat: 10.6806, lon: -68.4901, depth: 10 },
-      { id: "4", location: "35 km NNE of El Limón, Venezuela", date: "2026-06-27T19:20:36.606Z", magnitude: 4.8, lat: 10.6023, lon: -67.5112, depth: 10 },
-      { id: "5", location: "54 km N of El Limón, Venezuela", date: "2026-06-26T22:16:11.931Z", magnitude: 4.7, lat: 10.8, lon: -67.5993, depth: 10 },
-      { id: "6", location: "17 km WSW of Morón, Venezuela", date: "2026-06-26T04:19:30.378Z", magnitude: 4.4, lat: 10.4537, lon: -68.3607, depth: 10 },
-      { id: "7", location: "5 km NE of Guatire, Venezuela", date: "2026-06-25T05:48:23.136Z", magnitude: 4.4, lat: 10.5111, lon: -66.5057, depth: 10 },
-      { id: "8", location: "12 km NNE of Caucagüito, Venezuela", date: "2026-06-24T22:23:53.774Z", magnitude: 4.5, lat: 10.5911, lon: -66.6976, depth: 10 },
-      { id: "9", location: "28 km SE of Yumare, Venezuela", date: "2026-06-24T22:05:11.566Z", magnitude: 7.5, lat: 10.4351, lon: -68.4716, depth: 10 },
-      { id: "10", location: "23 km SE of Yumare, Venezuela", date: "2026-06-24T22:04:33.389Z", magnitude: 7.2, lat: 10.436, lon: -68.5277, depth: 20.294 }
+      { id: "1", location: "27 km N of Caraballeda, Venezuela", date: "2026-06-29T11:01:03.516Z", magnitude: 4.6, lat: 10.8601, lon: -66.8435, depth: 10, source: "USGS" },
+      { id: "2", location: "19 km WSW of Morón, Venezuela", date: "2026-06-28T09:33:58.852Z", magnitude: 4.3, lat: 10.4497, lon: -68.3766, depth: 10, source: "USGS" },
+      { id: "3", location: "20 km W of Boca de Aroa, Venezuela", date: "2026-06-28T08:46:10.376Z", magnitude: 4.5, lat: 10.6806, lon: -68.4901, depth: 10, source: "USGS" },
+      { id: "4", location: "35 km NNE of El Limón, Venezuela", date: "2026-06-27T19:20:36.606Z", magnitude: 4.8, lat: 10.6023, lon: -67.5112, depth: 10, source: "USGS" },
+      { id: "5", location: "54 km N of El Limón, Venezuela", date: "2026-06-26T22:16:11.931Z", magnitude: 4.7, lat: 10.8, lon: -67.5993, depth: 10, source: "USGS" },
+      { id: "6", location: "17 km WSW of Morón, Venezuela", date: "2026-06-26T04:19:30.378Z", magnitude: 4.4, lat: 10.4537, lon: -68.3607, depth: 10, source: "USGS" },
+      { id: "7", location: "5 km NE of Guatire, Venezuela", date: "2026-06-25T05:48:23.136Z", magnitude: 4.4, lat: 10.5111, lon: -66.5057, depth: 10, source: "USGS" },
+      { id: "8", location: "12 km NNE of Caucagüito, Venezuela", date: "2026-06-24T22:23:53.774Z", magnitude: 4.5, lat: 10.5911, lon: -66.6976, depth: 10, source: "USGS" },
+      { id: "9", location: "28 km SE of Yumare, Venezuela", date: "2026-06-24T22:05:11.566Z", magnitude: 7.5, lat: 10.4351, lon: -68.4716, depth: 10, source: "USGS" },
+      { id: "10", location: "23 km SE of Yumare, Venezuela", date: "2026-06-24T22:04:33.389Z", magnitude: 7.2, lat: 10.436, lon: -68.5277, depth: 20.294, source: "USGS" }
     ];
     setEarthquakes(data);
   }, []);
@@ -85,9 +86,11 @@ export default function EarthquakesPage() {
               <h3 className="font-bold text-zinc-900 dark:text-zinc-100 text-sm leading-tight mb-1">
                 {earthquake.location}
               </h3>
-              <p className="text-xs text-zinc-500 dark:text-zinc-400 font-medium">
-                {isMounted ? getTimeAgo(earthquake.date) : "Cargando..."}
-              </p>
+              <div>
+                <span className="text-xs text-zinc-500 dark:text-zinc-400 font-medium">
+                  {earthquake.source}. {isMounted ? getTimeAgo(earthquake.date) : "Cargando..."}
+                </span>
+              </div>
             </div>
           </div>
         ))}

@@ -11,7 +11,7 @@ export interface Person {
   sex?: 'M' | 'F';
   status: 'encontrado' | 'desaparecido';
   origin?: string;
-  current_location?: string;
+  last_location?: string;
   reported_by?: string;
   is_minor?: string;
   photo_url?: string;
