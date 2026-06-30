@@ -45,7 +45,7 @@ function mapExternalToPerson(item: any): Person {
     sex: undefined,
     status: 'encontrado',
     reported_by: extractInfo('localizado por') || parts.length > 0 ? parts[0] : undefined,
-    current_location: extractInfo('ubicación') || extractInfo('lugar'),
+    last_location: extractInfo('ubicación') || extractInfo('lugar'),
     date: extractInfo('fecha') || undefined,
   };
 }
