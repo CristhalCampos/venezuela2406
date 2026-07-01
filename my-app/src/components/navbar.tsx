@@ -11,9 +11,7 @@ export default function Navbar() {
   const links = [
     { name: "Busqueda", href: "/", icon: Search },
     { name: "Fuentes", href: "/sources", icon: ListFilter},
-    // { name: "Estadísticas", href: "/statistics", icon: BarChart },
     { name: "Ayuda", href: "/help", icon: HelpCircle },
-    // { name: "Centros de acopio", href: "/centers", icon: Package },
     { name: "Sismos", href: "/earthquakes", icon: Activity },
   ];
 
